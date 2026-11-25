@@ -14,8 +14,8 @@ Research prototype combining client-side communication telemetry, a frozen state
 | Aegis learned | 76.11% | 441 | 2164.25 |
 
 Aegis learned trades reliability for lower request volume and lower overall tail latency; matched successful operations have higher P95 than native retry. No statistical superiority or equivalence is established.
+<img width="2400" height="1350" alt="scenario_success" src="https://github.com/user-attachments/assets/a93574b0-8576-421d-9338-51a6461aaa0b" />
 
-![Scenario results](analysis/scenario_success.png)
 
 ## Reproduce archived results without models
 
