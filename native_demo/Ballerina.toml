@@ -1,0 +1,11 @@
+[package]
+org = "thilac"
+name = "aegis_demo"
+version = "0.1.0"
+distribution = "2201.10.2"
+
+[[dependency]]
+org = "thilac"
+name = "aegis"
+version = "0.1.0"
+repository = "local"
