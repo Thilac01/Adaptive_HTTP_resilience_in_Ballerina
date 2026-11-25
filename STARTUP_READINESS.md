@@ -1,0 +1,3 @@
+# Explicit startup preparation
+
+This additive v0.2.0 API uses a caller-selected safe GET endpoint returning a small JSON body. It uses the same cached initial transport, makes one attempt and does not populate model history. A non-2xx or invalid JSON response makes ready false. Call before admitting application requests. The probe has a transport timeout but no guaranteed wall-clock bound. Startup is measured separately; application deadline remains 3000 ms. It does not guarantee subsequent deadlines, initialize every retry transport or prepare the inference sidecar. Cold test remains strict and may fail. No changes to v0.1.0 or model training.

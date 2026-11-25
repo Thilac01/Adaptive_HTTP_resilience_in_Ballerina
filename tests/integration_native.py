@@ -67,9 +67,17 @@ class Integration(unittest.TestCase):
                     if line.startswith('AEGIS_RESULT,')]
             self.assertEqual(len(rows), 1, p.stdout)
             row = rows[0]
+            diagnostics = json.dumps({'mode': mode, 'decision': decision,
+                'server_requests': dict(requests),
+                'missing_warmup_paths': ['/op/'+str(i) for i in range(1, 11)
+                                         if requests['/op/'+str(i)] == 0],
+                'inference_calls': len(calls), 'result': row}, indent=2)
+            print('\n'+diagnostics, flush=True)
             self.assertEqual(row['attempts'], expected_attempts, p.stdout)
             self.assertEqual(requests['/op/11'], expected_attempts)
-            self.assertEqual(sum(requests.values()), 10+expected_attempts)
+            self.assertEqual(sum(requests.values()), 10+expected_attempts, diagnostics)
+            for i in range(1, 11):
+                self.assertEqual(requests['/op/'+str(i)], 1, diagnostics)
             self.assertEqual(len(calls), expected_calls)
             self.assertEqual(row['status'], 200 if expected_attempts == 2 else status)
             self.assertEqual(row['deadlineSuccess'], expected_attempts == 2)

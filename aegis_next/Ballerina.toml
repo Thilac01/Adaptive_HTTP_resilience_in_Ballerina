@@ -1,0 +1,5 @@
+[package]
+org = "thilac"
+name = "aegis_next"
+version = "0.2.0"
+distribution = "2201.10.2"
