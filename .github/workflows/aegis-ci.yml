@@ -1,0 +1,52 @@
+name: Aegis verification
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: ballerina-platform/setup-ballerina@v1
+        with:
+          version: '2201.10.2'
+      - name: Python syntax and policy tests
+        run: |
+          python -m compileall -q .
+          python -m unittest -v test_aegis_v6
+      - name: Native unit tests and local package
+        working-directory: aegis_native
+        run: |
+          bal test
+          bal pack
+          bal push --repository local
+      - name: Build native demo
+        working-directory: native_demo
+        run: bal build --offline
+      - name: Build native baseline
+        working-directory: native_baseline
+        run: bal build
+      - name: Native integration tests (stub inference)
+        run: python tests/integration_native.py
+      - name: Extended client unit tests and local package
+        working-directory: aegis_next
+        run: |
+          bal test
+          bal pack
+          bal push --repository local
+      - name: Build extended demo
+        working-directory: next_demo
+        run: bal build --offline
+      - name: Prepared client integration tests
+        run: |
+          python tests/integration_next.py
+          python tests/integration_retry_after.py
