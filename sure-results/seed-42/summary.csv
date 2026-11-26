@@ -1,0 +1,5 @@
+policy,episodes,confirmed_on_time_pct,unresolved_pct,duplicate_requests,duplicate_effects,deadline_overruns,mean_retries,mean_failovers,mean_recovery_calls,mean_latency_ms,p95_latency_ms
+greedy,1600,46.3125,53.6875,0,0,0,0.25,0.25,0.75,512.5,580
+lookahead,1600,46.3125,53.6875,0,0,0,0.25,0.25,0.75,512.5,580
+fixed_status,1600,26.375,73.625,0,0,0,0,0,1,520,520
+fixed_backoff,1600,54.0,46.0,0,0,0,0,0.5,1,650,780

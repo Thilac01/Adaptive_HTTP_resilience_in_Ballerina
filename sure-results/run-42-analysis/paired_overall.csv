@@ -1,0 +1,4 @@
+comparator,cases,lookahead_only,comparator_only,ties,confirmed_difference_pp,mcnemar_exact_p,mean_difference_unresolved,mean_difference_duplicate_effects,mean_difference_retries,mean_difference_recovery_calls,mean_difference_latency_ms
+greedy,1600,0,0,1600,0,1.0,0,0,0,0,0
+fixed_status,1600,386,67,1147,19.9375,1.5188749650497455e-55,-0.199375,0,0.25,-0.25,-7.5
+fixed_backoff,1600,36,159,1405,-7.6875,1.2117792826598192e-19,0.076875,0,0.25,-0.25,-137.5

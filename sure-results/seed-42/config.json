@@ -1,0 +1,33 @@
+{
+  "seed": 42,
+  "episodes_per_cell": 100,
+  "policies": [
+    "greedy",
+    "lookahead",
+    "fixed_status",
+    "fixed_backoff"
+  ],
+  "population": "synthetic initial-timeout cases",
+  "initial_timeout_ms": 400,
+  "recovery_call_budget": 1,
+  "audit_grace_ms": 1000,
+  "mean_residual_commit_ms": 220,
+  "initial_state_order": [
+    "unstarted",
+    "processing",
+    "completed"
+  ],
+  "prior": [
+    0.2727272727272727,
+    0.45454545454545453,
+    0.2727272727272727
+  ],
+  "durations_ms": {
+    "wait": 200,
+    "reconcile": 120,
+    "retry": 150,
+    "failover": 180
+  },
+  "call_cost": 0.05,
+  "time_cost_per_ms": 0.001
+}
