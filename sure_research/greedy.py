@@ -10,6 +10,16 @@ from .admission import Action, ExecutionEvidence, VerifiedDeduplication, admissi
 StateProbabilities = tuple[float, float, float]
 
 
+def immediate_utility(
+    probability: float,
+    duration_ms: int,
+    calls: int,
+    call_cost: float,
+    time_cost_per_ms: float,
+) -> float:
+    return probability - call_cost * calls - time_cost_per_ms * duration_ms
+
+
 def choose_greedy(
     *,
     belief: StateProbabilities,
@@ -48,7 +58,7 @@ def choose_greedy(
     for action in eligible:
         if action == "stop":
             continue
-        score = -time_cost_per_ms * duration_bounds_ms[action]
+        probability = 0.0
         if action != "wait":
             probabilities = confirmation_probabilities.get(action)
             if probabilities is None:
@@ -56,8 +66,10 @@ def choose_greedy(
             if len(probabilities) != 3 or not all(0 <= p <= 1 for p in probabilities):
                 raise ValueError(f"Expected three confirmation probabilities for {action}")
             # Average the state-specific outcomes using the current belief.
-            score += sum(weight * chance for weight, chance in zip(belief, probabilities))
-            score -= call_cost
+            probability = sum(weight * chance for weight, chance in zip(belief, probabilities))
+        score = immediate_utility(
+            probability, duration_bounds_ms[action], int(action != "wait"), call_cost, time_cost_per_ms
+        )
         if score > best_score:
             best_action, best_score = action, score
     return best_action, best_score
