@@ -1,6 +1,6 @@
 # SURE — Semantics-Constrained Uncertainty-Aware Recovery Engine
 
-SURE is a research prototype for recovering from ambiguous HTTP timeouts. It compares a one-step greedy policy with a two-step partially observable Markov decision process (POMDP) planner. Both policies use the same model, safety rules, deadline, and recovery-call budget. The standalone implementation lives on the `rash` branch, with a JSON decision contract for future Ballerina integration.
+SURE is a research prototype for recovering from ambiguous HTTP timeouts. It compares a one-step greedy policy with a two-step partially observable Markov decision process (POMDP) planner. Both policies use the same model, safety rules, deadline, and recovery-call budget. The standalone implementation lives in this `POMDP/` directory, with a JSON decision contract for future Ballerina integration.
 
 **Research question:** Under which fault conditions and budgets does planning one action further ahead improve correct, confirmed, on-time recovery, and what latency or recovery traffic does that improvement cost?
 
@@ -84,14 +84,12 @@ Only `stop` is admitted after confirmed completion or deadline expiry. A timeout
 
 ## Run the prototype
 
-Run from the repository root. Python **3.10 or newer** is required. The SURE simulation, tests, and analyzer use the standard library.
+Enter `POMDP/` from the repository root. Python **3.10 or newer** is required. The SURE simulation, tests, and analyzer use the standard library.
 
 **PowerShell**
 
 ```powershell
-git fetch origin
-git switch rash
-git pull --ff-only origin rash
+cd POMDP
 py -3 -m unittest discover -s tests -p "test_sure_*.py" -v
 py -3 -m sure_research.benchmark --seed 42 --episodes-per-cell 100 --out sure-results/run-42
 py -3 -m sure_research.analyze sure-results/run-42 --out sure-results/run-42-analysis
@@ -100,9 +98,7 @@ py -3 -m sure_research.analyze sure-results/run-42 --out sure-results/run-42-ana
 **Linux, macOS, or WSL**
 
 ```bash
-git fetch origin
-git switch rash
-git pull --ff-only origin rash
+cd POMDP
 python3 -m unittest discover -s tests -p 'test_sure_*.py' -v
 python3 -m sure_research.benchmark --seed 42 --episodes-per-cell 100 --out sure-results/run-42
 python3 -m sure_research.analyze sure-results/run-42 --out sure-results/run-42-analysis
@@ -162,7 +158,7 @@ Start with the `greedy` comparator in `paired_overall.csv`. `confirmed_differenc
 }
 ```
 
-Save the example as `planner-request.json` to test the interface.
+Save the example as `planner-request.json` inside `POMDP/` to test the interface.
 
 ```powershell
 Get-Content -Raw planner-request.json | py -3 -m sure_research.planner_api
@@ -180,14 +176,14 @@ The trusted client owns the request lifecycle, monotonic deadline, evidence clas
 
 | File | Responsibility |
 |---|---|
-| [simulator.py](simulator.py) | Payment event timelines and the initial client-visible outcome. |
-| [admission.py](admission.py) | Evidence, request-scoped destination guarantees, and action admission. |
-| [greedy.py](greedy.py) | One-step scoring and action selection. |
-| [lookahead.py](lookahead.py) | Joint outcome model, observation-conditioned posterior, and depth-2 planning. |
-| [benchmark.py](benchmark.py) | Seeded cases, policies, simulated execution, and ledger-backed metrics. |
-| [analyze.py](analyze.py) | Validated pairing and overall and condition-level comparisons. |
-| [planner_api.py](planner_api.py) | Versioned JSON input validation and action recommendation. |
-| [SURE tests](../tests/) | Simulator, safety, policy, reproducibility, and workflow checks. |
+| [simulator.py](sure_research/simulator.py) | Payment event timelines and the initial client-visible outcome. |
+| [admission.py](sure_research/admission.py) | Evidence, request-scoped destination guarantees, and action admission. |
+| [greedy.py](sure_research/greedy.py) | One-step scoring and action selection. |
+| [lookahead.py](sure_research/lookahead.py) | Joint outcome model, observation-conditioned posterior, and depth-2 planning. |
+| [benchmark.py](sure_research/benchmark.py) | Seeded cases, policies, simulated execution, and ledger-backed metrics. |
+| [analyze.py](sure_research/analyze.py) | Validated pairing and overall and condition-level comparisons. |
+| [planner_api.py](sure_research/planner_api.py) | Versioned JSON input validation and action recommendation. |
+| [SURE tests](tests/) | Simulator, safety, policy, reproducibility, and workflow checks. |
 
 ## Verification and limitations
 
