@@ -2,6 +2,12 @@
 
 Research prototype combining client-side communication telemetry, a frozen state estimator, action-conditioned recovery prediction and deadline-aware utility selection. Ballerina owns the sequential GET request lifecycle; Python serves the learned decisions locally.
 
+## SURE recovery planner
+
+The SURE prototype studies how a client should recover from an ambiguous payment timeout. It compares greedy action selection, depth-2 POMDP lookahead, and two fixed policies under shared safety, deadline, and recovery-call constraints.
+
+The [SURE research README](POMDP/README.md) covers the planner math, payment example, safety rules, Windows and Linux commands, benchmark outputs, and the versioned JSON interface for future Ballerina integration. SURE uses a standalone Python simulation. The evaluation below describes Aegis’s HTTP experiments.
+
 ## Final evaluation
 
 48 runs, 1,440 measured operations, 12 scenario–seed blocks. All configurations had zero observed deadline violations.
